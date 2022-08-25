@@ -1,16 +1,17 @@
 import './Input.css';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Task} from './Task';
+import {generateId} from './Utilities';
 
 export function Input(props) {
     
     const [listOfTasks, setListOfTasks] = useState([]);
     const addTask = (task) => {
         const toDoTask = {
-            task: task
+            task: task,
+            id: generateId()
         }
         setListOfTasks((prev) => [toDoTask, ...prev]);
-
     }
 
     const [task, setTask] = useState([]);
@@ -27,18 +28,32 @@ export function Input(props) {
 
     }
 
+
+    const completeTask = (taskIdToComplete) => {
+        const timeout = setTimeout(() => {
+            removeTask(taskIdToComplete)
+        }, 1000)
+        return () => clearTimeout(timeout);
+    };
+
+    const changeColour = () => {
+        return 'green';
+    }
+
+    const removeTask = (taskIdToRemove) => {
+        setListOfTasks(() => listOfTasks.filter((task) => task.id !== taskIdToRemove));
+    }
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <input type="text" name="input" placeholder='Add task...' onChange={handleChange}/>
-                <input type="submit" value="submit" />
+                <input className="input" type="text" name="input" placeholder='Add task...' onChange={handleChange}/>
+                <input className="submit" type="submit" value="+" />
             </form>
             <div className="tasksContainer">
-                {listOfTasks.map((task) => {
-                    // How to give each Task a unique ID??
-                    // Also how to make Tasks appear?
-                    <Task task={task}/>
-                })}
+                {listOfTasks.map((task) => (
+                    <Task key={task.id} task={task} completeTask={completeTask} removeTask={removeTask} changeColour={changeColour}/>
+                ))}
             </div>
         </div>
     )

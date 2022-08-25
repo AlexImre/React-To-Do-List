@@ -1,0 +1,21 @@
+.taskContainer {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tasks {
+    width: 300px;
+    margin: 15px;
+}
+
+button {
+    padding: 10px;
+    margin: 5px;
+    height: 30px;
+    width: 30px;
+}
+
+.green{
+    background-color: green;
+}
