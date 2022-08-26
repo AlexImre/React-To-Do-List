@@ -1,5 +1,5 @@
 import './Input.css';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Task} from './Task';
 import {generateId} from './Utilities';
 
@@ -31,14 +31,11 @@ export function Input(props) {
         document.querySelector('input').value = "";
     }
 
-    let ToComplete;
     const completeTask = (taskIdToComplete) => {
 
         const taskToComplete = listOfTasks.filter((task) => task.id === taskIdToComplete);
         taskToComplete[0].colour = 'green';
         setListOfTasks((prev) => [...prev]);
-        ToComplete = taskIdToComplete;
-        return taskIdToComplete;
         // HOW TO STOP TIMEOUT BUGS? E.G> Doesnt work if press quickly + text gets shuffled?
         // const timeout = setTimeout(() => {
         //     removeTask(taskIdToComplete)
@@ -55,7 +52,7 @@ export function Input(props) {
         <div className="formContainer">
             <form onSubmit={handleSubmit}>
                 <input className="input" type="text" name="input" placeholder='Add task...' onChange={handleChange}/>
-                <button class="button-29" role="button">
+                <button class="button-29">
                     Add
                 </button>
             </form>
