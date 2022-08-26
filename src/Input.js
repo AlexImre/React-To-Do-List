@@ -1,5 +1,5 @@
 import './Input.css';
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Task} from './Task';
 import {generateId} from './Utilities';
 
@@ -7,31 +7,35 @@ export function Input(props) {
     
     const [listOfTasks, setListOfTasks] = useState([]);
     const addTask = (task) => {
-        const toDoTask = {
-            task: task,
-            id: generateId(),
-            colour: ''
-        }
-        setListOfTasks((prev) => [toDoTask, ...prev]);
+        setListOfTasks((prev) => [task, ...prev]);
     }
 
-    const [task, setTask] = useState([]);
+    const [task, setTask] = useState({});
     const handleChange = (e) => {
-        setTask(() => e.target.value);
+        setTask({
+            text: e.target.value,
+            id: 0,
+            colour: ''
+        })
     }
 
     const handleSubmit = (e) => {
+        setTask(task.id = generateId())
         e.preventDefault();
         addTask(task);
         setTask('');
         document.querySelector('input').value = "";
     }
 
+    let ToComplete;
     const completeTask = (taskIdToComplete) => {
+
         const taskToComplete = listOfTasks.filter((task) => task.id === taskIdToComplete);
-        taskToComplete.colour = 'green';
-        // document.getElementsByClassName(taskToComplete.id)[0].style.backgroundColor = 'green';
-        // document.getElementById('tasks').style.textDecoration = "line-through";
+        taskToComplete[0].colour = 'green';
+        setListOfTasks((prev) => [...prev]);
+        ToComplete = taskIdToComplete;
+        return taskIdToComplete;
+        // HOW TO STOP TIMEOUT BUGS? E.G> Doesnt work if press quickly + text gets shuffled?
         // const timeout = setTimeout(() => {
         //     removeTask(taskIdToComplete)
         // }, 2000)
@@ -43,17 +47,21 @@ export function Input(props) {
     }
 
     return (
-        <div>
+        <>
+        <div className="formContainer">
             <form onSubmit={handleSubmit}>
                 <input className="input" type="text" name="input" placeholder='Add task...' onChange={handleChange}/>
-                <input className="submit" type="submit" value="+" />
+                <button class="button-29" role="button">
+                    Add
+                </button>
             </form>
-            <div className="tasksContainer">
-                {listOfTasks.map((task) => (
-                    <Task className={`task ${task.id}`} id={task.id} key={task.id} task={task} completeTask={completeTask} removeTask={removeTask}/>
-                ))}
-            </div>
         </div>
+        <div className={`tasksContainer`}>
+                {listOfTasks.map((task) => (
+                    <Task className={`task ${task.colour}`} id="task" key={task.id} task={task} completeTask={completeTask} removeTask={removeTask}/>
+                ))}
+        </div>
+        </>
     )
 
 }

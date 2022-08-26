@@ -3,7 +3,7 @@ import React from 'react';
 
 export function Task(props) {
     const {
-        task,
+        text,
         id,
         colour
     } = props.task;
@@ -17,12 +17,14 @@ export function Task(props) {
     }
 
     return (
+        <>
         <div className={`taskContainer`} id="taskContainer">
-            <div className="tasks" id="tasks">
-                {task}
+            <div className={`tasks ${colour}`} id="tasks">
+                {text}
             </div>
-            <button onClick={completeTask}>✓</button>
-            <button onClick={removeTask}>X</button>
+            <button className="button-30" onClick={completeTask}>✓</button>
+            <button className="button-30" onClick={removeTask}>X</button>
         </div>
+        </>
     )
 }
