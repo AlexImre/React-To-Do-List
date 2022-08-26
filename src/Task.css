@@ -21,6 +21,15 @@ button {
     text-decoration: line-through;
 }
 
+@media only screen and (max-width: 600px) {
+    .tasks {
+        max-width: 150px;
+        margin: 15px;
+        display:flex;
+        flex-wrap: wrap;
+    }
+}
+
 /* CSS */
 .button-30 {
     background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
