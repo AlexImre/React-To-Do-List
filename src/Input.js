@@ -1,5 +1,5 @@
 import './Input.css';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {Task} from './Task';
 import {generateId} from './Utilities';
 
@@ -9,7 +9,8 @@ export function Input(props) {
     const addTask = (task) => {
         const toDoTask = {
             task: task,
-            id: generateId()
+            id: generateId(),
+            colour: ''
         }
         setListOfTasks((prev) => [toDoTask, ...prev]);
     }
@@ -17,7 +18,6 @@ export function Input(props) {
     const [task, setTask] = useState([]);
     const handleChange = (e) => {
         setTask(() => e.target.value);
-
     }
 
     const handleSubmit = (e) => {
@@ -25,20 +25,18 @@ export function Input(props) {
         addTask(task);
         setTask('');
         document.querySelector('input').value = "";
-
     }
-
 
     const completeTask = (taskIdToComplete) => {
-        const timeout = setTimeout(() => {
-            removeTask(taskIdToComplete)
-        }, 1000)
-        return () => clearTimeout(timeout);
+        const taskToComplete = listOfTasks.filter((task) => task.id === taskIdToComplete);
+        taskToComplete.colour = 'green';
+        // document.getElementsByClassName(taskToComplete.id)[0].style.backgroundColor = 'green';
+        // document.getElementById('tasks').style.textDecoration = "line-through";
+        // const timeout = setTimeout(() => {
+        //     removeTask(taskIdToComplete)
+        // }, 2000)
+        // return () => clearTimeout(timeout);
     };
-
-    const changeColour = () => {
-        return 'green';
-    }
 
     const removeTask = (taskIdToRemove) => {
         setListOfTasks(() => listOfTasks.filter((task) => task.id !== taskIdToRemove));
@@ -52,7 +50,7 @@ export function Input(props) {
             </form>
             <div className="tasksContainer">
                 {listOfTasks.map((task) => (
-                    <Task key={task.id} task={task} completeTask={completeTask} removeTask={removeTask} changeColour={changeColour}/>
+                    <Task className={`task ${task.id}`} id={task.id} key={task.id} task={task} completeTask={completeTask} removeTask={removeTask}/>
                 ))}
             </div>
         </div>

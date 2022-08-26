@@ -1,29 +1,27 @@
 import './Task.css';
-import React, {useState} from 'react';
+import React from 'react';
 
 export function Task(props) {
-
+    const {
+        task,
+        id,
+        colour
+    } = props.task;
 
     const completeTask = () => {
-        props.completeTask(props.task.id);
+        props.completeTask(id);
     }
 
-    let colour = ''
-    const changeColour = () => {
-        colour = 'green';
-        return colour;
-    }
-    
     const removeTask = () => {
-        props.removeTask(props.task.id);
+        props.removeTask(id);
     }
 
     return (
-        <div className={`taskContainer green`}>
-            <div className="tasks">
-                {props.task.task}
+        <div className={`taskContainer`} id="taskContainer">
+            <div className="tasks" id="tasks">
+                {task}
             </div>
-            <button onClick={changeColour}>✓</button>
+            <button onClick={completeTask}>✓</button>
             <button onClick={removeTask}>X</button>
         </div>
     )
