@@ -20,8 +20,12 @@ export function Input(props) {
     }
 
     const handleSubmit = (e) => {
-        setTask(task.id = generateId())
         e.preventDefault();
+        if(task.text.length < 1){
+            return;
+        }
+        setTask(task.id = generateId())
+
         addTask(task);
         setTask('');
         document.querySelector('input').value = "";
